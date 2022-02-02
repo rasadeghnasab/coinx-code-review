@@ -1,68 +1,53 @@
 import mongoose from "mongoose";
-import Profile from "../models/profile";
-import Simulator from "../models/simulator";
-import Favorite from "../models/favorite";
+import Profile from "../models/Profile";
+import Simulator from "../models/Simulator";
+import Favorite from "../models/Favorite";
 import {DB_URL} from "../config";
 
 (async () => {
 
-    await mongoose
-        .connect(`${DB_URL}`, {useNewUrlParser: true, useUnifiedTopology: true})
-        .then(() => console.log(`✅ Connected to DB ${DB_URL}`))
-        .catch((error) => {
-            console.log(`Failed to connect to the mongodb: ${error}`)
-            process.exit(1)
-        });
+    mongoose.connect(DB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
 
     const profile = new Profile({
-        name: `Name (string)`,
-        nickname: `Nickname (string)`,
-        email: `email@email.com`,
-        capital: 123,
+        name: `name (String)`,
+        email: `email@email.com (String)`,
+        nickname: `Nickname (String)`,
+        capital: `123`,
         divisa: `String`,
         prefered_cryptocurrency: `String`,
     });
-    profile.save().then(
-        (result) => {
-            console.log(result)
-        }
-    ).catch((error) => {
-        console.log({error})
+    await profile.save();
+
+    const query = {_id: "6093abb3dfd9da1deeae56f2"};
+    const idProfile = await Profile.findOne(query).then((e) => {
+        return e?._id;
     });
 
-    console.log('hi')
-
-    const query = {_id: profile._id};
-    const idProfile = await Profile.findOne(query).then((profile: any) => {
-        return profile?._id;
+    const simulator = new Simulator({
+        profile_id: idProfile,
+        name: `String`,
+        start_date: `01/05/2021`,
+        check_date: `01/05/2021`,
+        cryptocurrency: `String`,
+        divisa: `String`,
+        crypto_price_start: 123,
+        crypto_price_check: 123,
     });
-    //
-    // console.log(idProfile);
-    //
-    // const simulator = new Simulator({
-    //     profile_id: idProfile,
-    //     name: `String`,
-    //     start_date: `01/05/2021`,
-    //     check_date: `01/05/2021`,
-    //     cryptocurrency: `String`,
-    //     divisa: `String`,
-    //     crypto_price_start: 123,
-    //     crypto_price_check: 123,
-    // });
-    // await simulator.save();
-    //
-    // const favorite = new Favorite({
-    //     profile_id: idProfile,
-    //     name: `String`,
-    //     favorites: [
-    //         `Fav 1`,
-    //         `Fav 2`,
-    //         `Fav 3`,
-    //     ],
-    // });
-    // await favorite.save();
+    await simulator.save();
+
+    const favorite = new Favorite({
+        profile_id: idProfile,
+        name: `String`,
+        favorites: [
+            'fav 1',
+            'fav 2',
+            'fav 5',
+        ]
+    });
+    await favorite.save();
 
     mongoose.disconnect();
 })();
-
-process.exit(0)
