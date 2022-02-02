@@ -3,16 +3,16 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const checkEnv = (envVar: string, defaultValue?: string) => {
-  if (!process.env[envVar]) {
-    if (defaultValue) {
-      return defaultValue;
+    if (!process.env[envVar]) {
+        if (defaultValue) {
+            return defaultValue;
+        }
+        throw new Error(`Please define the Environment variable"${envVar}"`);
+    } else {
+        return process.env[envVar] as string;
     }
-    throw new Error(`Please define the Enviroment variable"${envVar}"`);
-  } else {
-    return process.env[envVar] as string;
-  }
 };
 
 export const PORT: number = parseInt(checkEnv("PORT", '3000'), 10);
-export const DBURL: string = checkEnv("DBURL", "dburl");
+export const DB_URL: string = checkEnv("DB_URL");
 export const CORS_ORIGINS = [`http://localhost:${PORT}`];

@@ -1,27 +1,15 @@
-import express from "express";
-import { PORT, DBURL, CORS_ORIGINS } from "./config";
-import cors from "cors";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import { router as favoriteRouter } from "./routes/favorite.router";
-import { router as profileRouter } from "./routes/profile.router";
-import { router as simulatorRouter } from "./routes/simulator.router";
+import {PORT, DB_URL} from "./config";
+import app from './routes';
 
 mongoose
-  .connect(`${DBURL}`, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log(`Connected to DB ${DBURL}`);
-  })
-  .catch((error) => console.log(`Failed to connect to the mongodb: ${error}`));
-
-const app = express();
-app.use(cors({ origin: CORS_ORIGINS }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(favoriteRouter);
-app.use(profileRouter);
-app.use(simulatorRouter);
+    .connect(`${DB_URL}`, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => console.log(`✅ Connected to DB ${DB_URL}`))
+    .catch((error) => {
+        console.log(`Failed to connect to the mongodb: ${error}`)
+        process.exit(1)
+    });
 
 app.listen(PORT, () =>
-  console.log(`✅  Ready on port http://localhost:${PORT}`)
+    console.log(`✅ Ready on port http://localhost:${PORT}`)
 );
