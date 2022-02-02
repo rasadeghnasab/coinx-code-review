@@ -2,10 +2,18 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["es6"],
+    "lib": [
+      "es5",
+      "es6"
+    ],
     "outDir": "dist",
     "rootDir": "src",
     "esModuleInterop": true,
-    "noImplicitAny": true
-  }
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }
