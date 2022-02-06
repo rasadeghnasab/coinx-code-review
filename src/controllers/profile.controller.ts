@@ -3,7 +3,6 @@ import {Request, Response} from 'express';
 
 const index = async (request: Request, response: Response) => {
     const profiles = await Profile.find().lean();
-    // console.log({profiles});
 
     response.json({profiles});
 }
