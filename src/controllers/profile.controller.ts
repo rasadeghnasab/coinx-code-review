@@ -16,6 +16,7 @@ const store = async (request: Request, response: Response) => {
     }).exec();
 
     if (!profile) {
+        console.log('no profile', {profile});
         profile = await Profile.create({name, email, nickname});
     }
 
