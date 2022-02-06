@@ -1,11 +1,8 @@
 import mongoose from "mongoose";
-// import {mockingoose} from 'mockingoose';
 const mockingoose = require('mockingoose');
 import request from "supertest";
 import app from "../../src/api";
 import _ from 'lodash';
-
-// import profileModel from '../../src/models/profile';
 
 let server;
 
@@ -59,6 +56,7 @@ describe("/api/profiles", () => {
     describe("the route exists", () => {
         it("should not return 404", async () => {
             const response = await request(server).get("/api/profiles");
+
             expect(response.status).not.toBe(404);
             expect(response.type).toEqual('application/json')
         });
@@ -68,7 +66,7 @@ describe("/api/profiles", () => {
         it("all profiles in db should be returned", async () => {
             mockingoose.Profiles.toReturn(profiles.correct);
             const response = await request(server).get("/api/profiles");
-            console.log({profiles: response.body})
+
             expect(response.body.profiles.length).toBe(profiles.correct.length);
         });
     });
@@ -79,8 +77,8 @@ describe("/api/profiles", () => {
             mockingoose.Profiles.toReturn(selectedProfile, 'create');
 
             const response = await request(server).post("/api/profiles").send(selectedProfile);
-
             delete response.body.profile._id;
+
             expect(response.body.profile).toEqual(_.pick(selectedProfile, 'email', 'name', 'nickname'));
         });
     });
@@ -90,21 +88,19 @@ describe("/api/profiles", () => {
         const selectedProfile = _.pick(selectedProfileFull, 'email', 'name', 'nickname');
         it("name already exists", async () => {
             mockingoose.Profiles.toReturn(selectedProfileFull, 'findOne');
-            const response = await request(server).post("/api/profiles").send(selectedProfile);
 
+            const response = await request(server).post("/api/profiles").send(selectedProfile);
             delete response.body.profile._id;
+
             expect(response.body.profile).toEqual(selectedProfileFull);
         });
         it("email already exists", async () => {
             mockingoose.Profiles.toReturn(selectedProfileFull, 'findOne');
-            const response = await request(server).post("/api/profiles").send(selectedProfile);
 
+            const response = await request(server).post("/api/profiles").send(selectedProfile);
             delete response.body.profile._id;
+
             expect(response.body.profile).toEqual(selectedProfileFull);
         });
     })
 });
-
-const selectProfileProperties = (properties) => {
-
-}
