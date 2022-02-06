@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import {PORT, DB_URL} from "./config";
-import app from './routes';
+import app from "./routes";
+import bootstrap from "./bootstrap";
+
+bootstrap(app);
 
 mongoose
     .connect(`${DB_URL}`, {useNewUrlParser: true, useUnifiedTopology: true})
