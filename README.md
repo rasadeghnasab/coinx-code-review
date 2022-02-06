@@ -14,6 +14,4 @@
 12. Move dependency modules to `devDependencies` in the package.json
 13. Remove unused dependencies from the package.json
 14. Always send package.lock to keep all the developers in sync regards to packages versions
-15. We can `validations` to the API endpoints. Using [Joi](npm i express-joi-validation joi --save
-    )
-16. 
+15. We can `validations` to the API endpoints. Using [Joi](https://www.npmjs.com/package/express-joi-validation)
